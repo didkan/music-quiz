@@ -15,12 +15,16 @@
       <div class="result d-flex flex-column justify-center align-center pa-2">
           <div>
             <div class="d-flex justify-center">
-                <span class="corrects">{{ corrects }}</span>&nbsp;&nbsp;
-                <span class="wrongs">{{ wrongs }}</span>
+                <span class="text-h3 text-green-darken-2">{{ corrects }}</span>&nbsp;&nbsp;
+                <span class="text-h3 text-red-lighten-2">{{ wrongs }}</span>
             </div>
-            <div>{{ currentVideo && currentVideo.title }}</div>
+            <!-- <div>{{ currentVideo && currentVideo.title }}</div> -->
           </div>
 
+          <div>
+            <Visualizer :playing="playerState === playerStates.playing"/>
+          </div>
+          
           <v-btn variant="tonal" @click="shuffle()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Shuffle</v-btn>
       </div>
       
@@ -40,11 +44,10 @@
         {{ lastGuessCorrect ? 'RÄTT' : 'FEL' }}
       </v-snackbar>
   </div>
-  <Visualizer :playing="playerState === playerStates.playing"/>
 </template>
 
 <script setup>
-  import { ref, computed, watch } from 'vue';
+  import { ref, computed } from 'vue';
   import YouTube from 'vue3-youtube'
   import Visualizer from './Visualizer.vue';
 
@@ -119,6 +122,10 @@
   let guess = (choice) => {
     if(!choice) return;
 
+    lastGuessCorrect.value = choice && choice === currentVideo.value?.title;
+
+    console.log('Guessing');
+
     currentChoice.value = choice;
     if (lastGuessCorrect.value) {
         corrects.value++;
@@ -128,13 +135,6 @@
     }
     showResult.value = true;
   };
-
-  watch(
-    () => currentChoice.value,
-    (choice) => {
-      lastGuessCorrect.value = choice && choice === currentVideo.value?.title;
-    }
-  )
 
   let choices = computed(() => {
     return videos.map(video => video.title).filter((v, i, a) => a.indexOf(v) === i);
