@@ -25,7 +25,7 @@
             <Visualizer :playing="playerState === playerStates.playing"/>
           </div>
           
-          <v-btn variant="tonal" @click="shuffle()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Shuffle</v-btn>
+          <v-btn variant="tonal" @click="shuffle()" class="bg-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Shuffle</v-btn>
       </div>
       
       <div class="options d-flex flex-wrap">
@@ -155,6 +155,8 @@
 .result {
   position: sticky;
   top: 0;
+  z-index: 2;
+  background-color: var(--color-background);
 }
 </style>
 ```
