@@ -144,10 +144,12 @@
 </script>
 
 <style scoped>
+.video,
 .video-player {
   width: 0 !important;
   height: 0 !important;
   visibility: hidden;
+  overflow: hidden;
 }
 
 .result {
